@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+import React from 'react';
+import {Router, Switch, Route, Redirect} from "react-router";
+import { createBrowserHistory } from 'history';
+import NavBar from './components/Navbar';
+import AlbumsPage from './pages/AlbumsPage';
+import PostsPage from './pages/PostsPage';
+import CommentsPage from './pages/CommentsPage';
+import PhotosPage from './pages/PhotosPage';
+
 import './App.css';
 
-function App() {
+const App = () => {
+  const history = createBrowserHistory();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      <div>
+        <NavBar />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => {
+                return <Redirect to="/posts" />
+            }}
+          />
+          <Route path="/posts" component={PostsPage} />
+          <Route path="/albums" component={AlbumsPage} />
+          <Route path="/comments/:postId" component={CommentsPage} />
+          <Route path="/photos/:albumId" component={PhotosPage} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
